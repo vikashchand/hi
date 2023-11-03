@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Instant File Download</title>
+</head>
+<body>
+  <h1>Instant File Download Example</h1>
+  <p id="downloadText" class="hover-download">Hover over this text to download the file</p>
+
+  <script>
+    function downloadFileFromServer() {
+      const serverFileURL = 'https://vikashchand.vercel.app/static/media/vikasheresume.e320c77937ec90f01c61.pdf'; // Replace with the actual URL of your file
+      const filename = 'example.txt'; // Specify the filename for the downloaded file
+
+      fetch(serverFileURL)
+        .then(response => response.blob())
+        .then(blob => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          const clickEvent = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: false
+          });
+          a.dispatchEvent(clickEvent);
+        })
+        .catch(error => console.error('Error downloading file:', error));
+    }
+
+    const downloadText = document.getElementById('downloadText');
+    
+    downloadText.addEventListener('mouseenter', function() {
+      downloadFileFromServer();
+    });
+  </script>
+</body>
+</html>
